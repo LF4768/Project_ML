@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            div {
+                margin: 2rem;
+            }
+            label {
+                margin-right: 10px;
+                font-weight: bold;
+                font-size:20px;
+            }
+
+            .score {
+                width:150px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="login">
+            <h1>Student Exam Performance Indicator</h1>
+
+            <form action="{{url_for('predict_datapoint')}}" method="post">
+
+
+
+                <div>
+                    <label>Gender</label>
+                    <select name="gender" id="gender" required>
+                        <option value="" selected disabled>Select your gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Race or Ethnicity</label>
+                    <select name="ethnicity" id="ethnicity" required>
+                        <option value="" selected disabled>Select your race or ethnicity</option>
+                        <option value="group A">Group A</option>
+                        <option value="group B">Group B</option>
+                        <option value="group C">Group C</option>
+                        <option value="group D">Group D</option>
+                        <option value="group E">Group E</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Parental level of Education</label>
+                    <select name="parental_level_of_education" id="parental_level_of_education" required>
+                        <option selected disabled value="">Select Parent's Education</option>
+                        <option value="bachelor's degree">Bachelor's Degree</option>
+                        <option value="some college">Some College</option>
+                        <option value="master's degree">Master's Degree</option>
+                        <option value="associate's degree">Associate's Degree</option>
+                        <option value="high school">High School</option>
+                        <option value="some high school">Some High School</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Test Preparation Course</label>
+                    <select name="test_preparation_course" id="test_preparation_course" required>
+                        <option value="" selected disabled>Select Test Course</option>
+                        <option value="completed">Completed</option>
+                        <option value="none">Not Completed</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Lunch</label>
+                    <select name="lunch" id="lunch" required>
+                        <option value="" selected disabled>Select Lunch Type</option>
+                        <option value="standard">Standard</option>
+                        <option value="free/reduced">Free or Reduced</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Writing Score(Out of 100)</label>
+                    <input class="score" name="writing_score" id="writing_score" type="number" required placeholder="Enter Writing Marks" min="0" max="100">
+                </div>
+
+                <div>
+                    <label>Reading Score(Out of 100)</label>
+                    <input class="score" name="reading_score" id="reading_score" type="number" required placeholder="Enter Reading Marks" min="0" max="100">
+                </div>
+
+                <div>
+                    <input type="submit" value="Predict your math score">
+                </div>
+            </form>
+            <h1>
+                The predicted score is {{results}}
+            </h1>
+    </body>
+</html>
