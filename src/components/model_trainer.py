@@ -36,7 +36,7 @@ class ModelTrainer:
             models = {
                 "Random Forest": RandomForestRegressor(),
                 "Decision Tree": DecisionTreeRegressor(),
-                "K Nearest Neighbours": KNeighborsRegressor(),
+                "K-Neighbor Regressor": KNeighborsRegressor(),
                 "Gradient Boost": GradientBoostingRegressor(),
                 "AdaBoost": AdaBoostRegressor(),
                 "Xg Boost": XGBRegressor(),
@@ -49,7 +49,57 @@ class ModelTrainer:
                 "Logistic Regression": LogisticRegression(max_iter=500)
             }
 
-            model_report:dict = evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models)
+            params={
+                "Random Forest": {
+                    "n_estimators" : [100,200,500,1000],
+                    # "criterion" : ["squared_error", "absolute_error","friedman_mse","poisson"],
+                    # "max_depth":[None,2,5,10],
+                },
+                "Decision Tree": {
+                    "criterion": ["squared_error","friedman_mse","absolute_error","poisson"],
+                    # "max_depth": [None,2,5,10],
+                    # "min_samples_split": [2,3,4,5,10]
+                },
+                "K-Neighbor Regressor": {
+                    "n_neighbors": [3,5,8,10,12],
+                    # "algorithm": ["auto","ball_tree","kd_tree","brute"]
+                },
+                "Gradient Boost": {
+                    # "loss": ["squared_error","absolute_error","huber","quantile"],
+                    # "learning_rate": [0.1,0.01,0.001],
+                    "n_estimators": [100,200,300,500,1000],
+                    # "max_depth": [1,3,4,5,10],   
+                },
+                "AdaBoost": {
+                    "n_estimators": [50,100,200,400],
+                    "learning_rate": [1,0.1,0.01,0.001],
+                    # "loss":["linear","square","exponential"]
+                },
+                "Xg Boost": {
+                    "learning_rate": [0.1,0.5,0.01,0.7],
+                    "n_estimators":[8,16,32,64,128,256],
+                    # "max_depth": [4,5,6,10],
+                    # "colsample_bytree":[0.1,0.01,0.0001,1]
+                },
+                "Cat Boost": {
+                    # "iterations": [100,200,500],
+                    "learning_rate": [0.1,0.01,0.001,0.3],
+                    # "depth":[2,4,5,6,8,10]
+                },
+                "SVR": {
+                    # "kernal": ["linear","poly","rbf","sigmoid","precomputed"],
+                    # "degree":[1,2,3,4,5],
+                    "epsilon":[0.1,0.01,0.001],
+                },
+                "Linear Regression": {},
+                "ElasticNet": {},
+                "Ridge": {},
+                "Lasso": {},
+                "Logistic Regression": {}
+            }
+
+
+            model_report:dict = evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params)
 
             best_model_score = max(sorted(model_report.values()))
 
@@ -64,13 +114,8 @@ class ModelTrainer:
 
             save_object(file_path=self.model_trainer_config.trained_model_file_path,obj=best_model)
 
-            predicted = best_model.predict(X_test)
-            r2_square = r2_score(y_test,predicted)
-            mse = mean_squared_error(y_test,predicted)
-            mae = mean_absolute_error(y_test,predicted)
-            rmse = root_mean_squared_error(y_test,predicted)
-            return (r2_square,mse,mae,rmse)
+            # predicted = best_model.predict(X_test)
+            return best_model_score
 
         except Exception as e:
             raise CustomException(e,sys)
-            

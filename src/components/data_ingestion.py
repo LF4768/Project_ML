@@ -55,8 +55,5 @@ if __name__ == "__main__":
     train_arr,test_arr,_ = data_transformation.initiate_data_transformation(train_data,test_data)
 
     model_trainer = ModelTrainer()
-    r2,mse,mae,rmse = model_trainer.initiate_model_trainer(train_array=train_arr, test_array = test_arr)
+    r2 = model_trainer.initiate_model_trainer(train_array=train_arr, test_array = test_arr)
     print(f"R2 Score: {r2} " )
-    print(f"mean squared error: {mse} " )
-    print(f"mean absolute error: {mae} " )
-    print(f"root mean squared error: {rmse} " )
